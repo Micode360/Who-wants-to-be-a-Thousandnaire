@@ -1,6 +1,8 @@
-import random
 from music import Intro
 from musicPath import introMusic
+from utils import currentQuestion
+from textpath import colored_text
+from Remarkspath import remarks
 questions = [
     {
         "question": "Which of these is not a country?",
@@ -67,22 +69,6 @@ prize_unicode = [
     "\u20A6" + "1000",
 ]
 
-def currentQuestion(item):
-    print(f"{item['question']}")
-    print(f"a. {item['options'][0]}")
-    print(f"b. {item['options'][1]}")
-    print(f"c. {item['options'][2]}")
-    print(f"d. {item['options'][3]}")
-    return True
-
-def remarks():
-    opt = ["Outstanding", "Good job", "Right on."]
-    print(random.choice(opt))
-    return True
-
-def colored_text(text, color_code):
-    return f"\033[{color_code}m{text}\033[0m"
-
 print(colored_text("WELCOME TO WHO WANTS TO BE A THOUSANDNAIRE!!!", "30;44"))
 
 def Main():
@@ -108,10 +94,10 @@ def Main():
                 remarks()
                 print(f"You now have {prize_unicode[score - 1]}")
                 print("=====================================================")
-                option = input("Do you want to continue(c) or walk away(w)? choose(c/w): ")
-                if option == "c":
+                option = input("Do you want to continue(yes) or walk away(no)? choose(yes/no): ")
+                if option == "yes":
                     continue
-                elif option == "w":
+                elif option == "no":
                     print("=====================================================")
                     print(f"A fair decision {prize_unicode[score - 1]}")
                     print(f"Thanks for playing")
