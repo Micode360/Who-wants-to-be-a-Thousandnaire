@@ -8,7 +8,7 @@ def Intro(path):
 
 def Fail():
     pygame.mixer.init()
-    pygame.mixer.music.load(r'file:///C:/Users/Miracle%20King/Documents/python_course/code/week2/Lose_Who_Wants_to_Be_a_Millionaire.mp3')
+    pygame.mixer.music.load(r'C:\Users\Emmanuel\Documents\T4S\Backend\Milli\Who-wants-to-be-a-Thousandnaire\Lose_Who_Wants_to_Be_a_Millionaire.mp3')
     pygame.mixer.music.play()
 
 
