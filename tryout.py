@@ -1,99 +1,35 @@
-import random
-from music import Intro
-from musicPath import introMusic
-questions = [
-    {
-        "question": "Which of these is not a country?",
-        "options": ["Venezuela", "Canada", "Qatar", "Toronto"],
-        "answer": "d"
-    },
-    {
-        "question": "What is the capital of Nigeria?",
-        "options": ["Lagos", "Abuja", "Kano", "Port Harcourt"],
-        "answer": "b"
-    },
-    {
-        "question": "Which Nigerian musician is known as the 'African Giant'?",
-        "options": ["Wizkid", "Davido", "Burna Boy", "Tiwa Savage"],
-        "answer": "c"
-    },
-    {
-        "question": "What is the currency of Nigeria?",
-        "options": ["Dollar", "Cedi", "Naira", "Pound"],
-        "answer": "c"
-    },
-    {
-        "question": "Who is the current President of Nigeria as of 2024?",
-        "options": ["Goodluck Jonathan", "Muhammadu Buhari", "Yemi Osinbajo", "Bola Tinubu"],
-        "answer": "d"
-    },
-    {
-        "question": "Which Nigerian city is known as the 'Centre of Excellence'?",
-        "options": ["Lagos", "Abuja", "Ibadan", "Enugu"],
-        "answer": "a"
-    },
-    {
-        "question": "What is the main staple food in Nigeria?",
-        "options": ["Rice", "Potatoes", "Pasta", "Bread"],
-        "answer": "a"
-    },
-    {
-        "question": "Which Nigerian state is famous for its oil production?",
-        "options": ["Lagos", "Kano", "Rivers", "Oyo"],
-        "answer": "c"
-    },
-    {
-        "question": "What is the official language of Nigeria?",
-        "options": ["Hausa", "Yoruba", "Igbo", "English"],
-        "answer": "d"
-    },
-    {
-        "question": "Which Nigerian author wrote 'Things Fall Apart'?",
-        "options": ["Chinua Achebe", "Wole Soyinka", "Chimamanda Ngozi Adichie", "Ben Okri"],
-        "answer": "a"
-    }
-]
 
-prize_unicode = [
-    "\u20A6" + "100",
-    "\u20A6" + "200",
-    "\u20A6" + "300",
-    "\u20A6" + "400",
-    "\u20A6" + "500",
-    "\u20A6" + "600",
-    "\u20A6" + "700",
-    "\u20A6" + "800",
-    "\u20A6" + "900",
-    "\u20A6" + "1000",
-]
+import json
+import pygame
+import functions
+pygame.mixer.init()
+with open(r"C:\Users\HP\Desktop\week2\Who-wants-to-be-a-Thousandnaire\question.json", "r") as f:
+    questions = json.load(f)
 
-def currentQuestion(item):
-    print(f"{item['question']}")
-    print(f"a. {item['options'][0]}")
-    print(f"b. {item['options'][1]}")
-    print(f"c. {item['options'][2]}")
-    print(f"d. {item['options'][3]}")
-    return True
+prize_unicode = []
+for prize in range(10):
+    prize_unicode.append( f"\u20A6{(prize+1)*100}")  
 
-def remarks():
-    opt = ["Outstanding", "Good job", "Right on."]
-    print(random.choice(opt))
-    return True
 
-def colored_text(text, color_code):
-    return f"\033[{color_code}m{text}\033[0m"
 
-print(colored_text("WELCOME TO WHO WANTS TO BE A THOUSANDNAIRE!!!", "30;44"))
+print(functions.colored_text("WELCOME TO WHO WANTS TO BE A THOUSANDNAIRE!!!", "30;44"))
+
+
+soundwronganswer = pygame.mixer.Sound(r"C:\Users\HP\Desktop\week2\Who-wants-to-be-a-Thousandnaire\media\wrong_answer.mp3")
+Introsound = pygame.mixer.Sound(r"C:\Users\HP\Desktop\week2\Who-wants-to-be-a-Thousandnaire\media\Who_Wants_To_Be_A_Millionaire Full_Theme.mp3")
 
 def Main():
+    Introsound.play()
     score = 0
     for item in questions:
-        currentQuestion(item)
+        functions.currentQuestion(item)
         choice = input("Choose a/b/c/d: ")
         if choice != item["answer"]:
+            Introsound.stop()
+            soundwronganswer.play()
             print("Nice try but you failed")
-            print(f"You just won {prize_unicode[score] if score != 0 else '₦0'}")
-            break
+            print(f"You just won  {prize_unicode[score] if score != 0 else '₦0'}")
+               
         else:
             score += 1
             if score == len(questions):
@@ -105,7 +41,7 @@ def Main():
                 break
             else:
                 print("=====================================================")        
-                remarks()
+                functions.remarks()
                 print(f"You now have {prize_unicode[score - 1]}")
                 print("=====================================================")
                 option = input("Do you want to continue(c) or walk away(w)? choose(c/w): ")
@@ -120,8 +56,5 @@ def Main():
                 else:
                     print("Invalid option. Continuing by default.")
                     continue
-
-Intro(introMusic)
-
 # Running program
 Main()
